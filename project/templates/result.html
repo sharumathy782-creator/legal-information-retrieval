@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Result</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<video autoplay muted loop id="bgVideo">
+<source src="{{ url_for('static', filename='videos/bg.mp4') }}" type="video/mp4">
+</video>
+
+<div class="container">
+
+<h2>Result</h2>
+
+<p><strong>Act:</strong> {{ result.act }}</p>
+
+<p><strong>Authority:</strong> {{ result.authority }}</p>
+
+<p><strong>Explanation:</strong> {{ result.explanation }}</p>
+
+<h3>📍 Office Location</h3>
+
+<iframe
+width="100%"
+height="300"
+style="border-radius:10px;border:none;"
+src="https://www.google.com/maps?q={{ map_location }}&output=embed">
+</iframe>
+
+<a href="/dashboard">Back</a><br>
+<a href="/feedback">Feedback</a><br>
+<a href="/logout">Logout</a>
+
+</div>
+
+</body>
+</html>

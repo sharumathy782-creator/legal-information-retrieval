@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Feedback</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <video autoplay muted loop id="bgVideo">
+    <source src="{{ url_for('static', filename='videos/bg.mp4') }}" type="video/mp4">
+</video>
+</head>
+<body>
+
+<div class="container">
+    <h2>Feedback</h2>
+    <form method="POST">
+        <textarea name="feedback" required></textarea>
+        <button type="submit">Submit</button>
+    </form>
+
+    <a href="/dashboard">Back</a><br>
+    <a href="/logout">Logout</a>
+</div>
+</body>
+</html>

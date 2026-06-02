@@ -1,0 +1,192 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+}
+/* ===== Language Dropdown Styling ===== */
+select[name="language"] {
+    background: rgba(0, 0, 0, 0.13);  /* dark glass effect */
+    color: #ffffff;                   /* white text */
+    border: 1px solid #aaa;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+}
+
+/* Dropdown list options */
+select[name="language"] option {
+    background-color: #222;  /* dark background */
+    color: #fff;             /* white text */
+}
+
+/* Hover effect */
+select[name="language"]:hover {
+    border-color: #00bcd4;
+}
+
+/* Focus effect */
+select[name="language"]:focus {
+    border-color: #00bcd4;
+    box-shadow: 0 0 5px rgba(0, 188, 212, 0.6);
+}
+
+/* Background Video */
+#bgVideo{
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1;
+    object-fit: cover;
+}
+
+/* Main Container */
+.container {
+    width: 550px;
+    margin: 80px auto;
+    padding: 30px;
+
+    background: rgba(0,0,0,0.55);
+    border-radius: 14px;
+
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+}
+
+/* Headings */
+h2, h3 {
+    text-align: center;
+    color: #ffffff;
+}
+
+/* Inputs */
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+
+    border-radius: 6px;
+    border: none;
+
+    background: rgba(255,255,255,0.12);
+    color: white;
+}
+
+/* Placeholder text */
+textarea::placeholder,
+input::placeholder{
+    color: rgba(255,255,255,0.7);
+}
+
+textarea {
+    height: 120px;
+}
+
+/* Buttons */
+button{
+    width: 100%;
+    padding: 10px;
+
+    background: rgba(255,255,255,0.2);
+
+    border: none;
+    color: white;
+    font-weight: bold;
+
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+
+    transition: 0.3s;
+}
+
+button:hover{
+    background: rgba(255,255,255,0.35);
+}
+
+/* Links */
+a {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+a:hover {
+    opacity: 0.8;
+}
+
+/* Tables */
+table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+
+    background: rgba(0,0,0,0.5);
+    color: white;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid rgba(255,255,255,0.2);
+    text-align: center;
+}
+
+th {
+    background: rgba(255,255,255,0.15);
+}
+
+/* Floating Tamil Keyboard */
+.keyboard{
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: grid;
+    grid-template-columns: repeat(10, 38px);
+    gap: 10px;
+
+    padding: 15px;
+    border-radius: 14px;
+
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(12px);
+
+    cursor: move;
+    z-index: 1000;
+}
+
+/* Keyboard Keys */
+.keyboard button{
+    width: 38px;
+    height: 38px;
+
+    font-size: 18px;
+    border-radius: 8px;
+    border: none;
+
+    background: rgba(255,255,255,0.15);
+    color: white;
+
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Hover */
+.keyboard button:hover{
+    background: rgba(255,255,255,0.35);
+}
+
+/* Space and Backspace */
+.keyboard button:last-child,
+.keyboard button:nth-last-child(2){
+    grid-column: span 2;
+    font-size: 14px;
+}

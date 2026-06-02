@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ text.dashboard_title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        #voiceBtn {
+            background: linear-gradient(rgba(255,255,255,0.15));
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+
+        #voiceBtn.listening {
+            background: #28a745;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(40,167,69, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(40,167,69, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(40,167,69, 0); }
+        }
+
+        #statusText {
+            margin-top: 8px;
+            color: #00ffcc;
+            font-weight: bold;
+        }
+
+        /* Tamil Keyboard */
+        .keyboard {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: grid;
+            grid-template-columns: repeat(10, 40px);
+            gap: 8px;
+            padding: 12px;
+            background: rgba(0,0,0,0.7);
+            border-radius: 12px;
+            cursor: move;
+            z-index: 1000;
+        }
+
+        .keyboard button {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- 🎬 Background Video -->
+<video autoplay muted loop id="bgVideo">
+    <source src="{{ url_for('static', filename='videos/bg.mp4') }}">
+</video>
+
+<div class="container">
+
+<!-- Language -->
+<form action="/set_language" method="POST">
+<select name="language" id="langSelect" onchange="this.form.submit()">
+<option value="english" {% if session.get('lang') == 'english' %}selected{% endif %}>English</option>
+<option value="tamil" {% if session.get('lang') == 'tamil' %}selected{% endif %}>தமிழ்</option>
+<option value="tanglish" {% if session.get('lang') == 'tanglish' %}selected{% endif %}>Tanglish</option>
+</select>
+</form>
+
+<h2>{{ text.dashboard_title }}</h2>
+
+<form action="/predict" method="POST">
+
+<!-- Issue -->
+<label>{{ text.issue_label }}</label>
+<textarea id="issueBox" name="issue"
+placeholder="{{ text.issue_label }}..." required></textarea>
+
+<br><br>
+
+<!-- 🎤 Mic -->
+<button type="button" id="voiceBtn">🎤 Speak</button>
+<div id="statusText"></div>
+
+<br><br>
+
+<!-- ✅ FIXED LOCATION -->
+<label>{{ text.location_label }}</label>
+<input type="text" name="location"
+placeholder="{{ text.location_label }}"
+required>
+
+<br><br>
+
+<button type="submit">{{ text.submit_button }}</button>
+
+</form>
+
+<br>
+<a href="/logout">{{ text.logout }}</a>
+
+</div>
+
+<!-- Tamil Keyboard -->
+{% if session.get('lang') == 'tamil' %}
+<div class="keyboard" id="keyboard">
+
+{% set keys = [
+"அ","ஆ","இ","ஈ","உ","ஊ","எ","ஏ","ஐ","ஒ",
+"ஓ","ஔ","க","ங","ச","ஞ","ட","ண","த","ந",
+"ப","ம","ய","ர","ல","வ","ழ","ள","ற","ன",
+"ா","ி","ீ","ு","ூ","ெ","ே","ை","ொ","ோ","்"
+] %}
+
+{% for key in keys %}
+<button type="button" onclick="insertChar('{{ key }}')">{{ key }}</button>
+{% endfor %}
+
+<button type="button" onclick="insertSpace()">Space</button>
+<button type="button" onclick="backspace()">⌫</button>
+
+</div>
+{% endif %}
+
+<script>
+
+/* Tamil typing */
+function insertChar(c){
+    document.getElementById("issueBox").value += c;
+}
+function insertSpace(){
+    document.getElementById("issueBox").value += " ";
+}
+function backspace(){
+    let t=document.getElementById("issueBox");
+    t.value=t.value.slice(0,-1);
+}
+
+/* 🎤 Voice */
+const voiceBtn=document.getElementById("voiceBtn");
+const issueInput=document.getElementById("issueBox");
+const langSelect=document.getElementById("langSelect");
+const statusText=document.getElementById("statusText");
+
+let recognition;
+let isListening=false;
+
+const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+
+if(SpeechRecognition){
+
+    recognition=new SpeechRecognition();
+    recognition.maxAlternatives=1;
+
+    function updateLanguage(){
+        let lang=langSelect.value;
+
+        if(lang==="tamil"){
+            recognition.lang="ta-IN";
+            voiceBtn.innerText="🎤 பேசுங்கள்";
+        }
+        else if(lang==="tanglish"){
+            recognition.lang="ta-IN";
+            voiceBtn.innerText="🎤 Pesunga";
+        }
+        else{
+            recognition.lang="en-IN";
+            voiceBtn.innerText="🎤 Speak";
+        }
+    }
+
+    updateLanguage();
+
+    voiceBtn.onclick=function(){
+        if(!isListening){
+            recognition.start();
+            isListening=true;
+            voiceBtn.classList.add("listening");
+            statusText.innerText="🎧 Listening...";
+        } else{
+            recognition.stop();
+            isListening=false;
+            voiceBtn.classList.remove("listening");
+            statusText.innerText="🛑 Stopped";
+        }
+    };
+
+    recognition.onresult=function(e){
+        issueInput.value+=" "+e.results[0][0].transcript;
+    };
+
+    recognition.onend=function(){
+        isListening=false;
+        voiceBtn.classList.remove("listening");
+        statusText.innerText="";
+    };
+}
+
+/* 🧲 Drag Keyboard */
+const keyboard=document.getElementById("keyboard");
+
+if(keyboard){
+let drag=false,x=0,y=0;
+
+keyboard.addEventListener("mousedown",e=>{
+    drag=true;
+    x=e.clientX-keyboard.offsetLeft;
+    y=e.clientY-keyboard.offsetTop;
+});
+
+document.addEventListener("mousemove",e=>{
+    if(!drag) return;
+    keyboard.style.left=(e.clientX-x)+"px";
+    keyboard.style.top=(e.clientY-y)+"px";
+});
+
+document.addEventListener("mouseup",()=>drag=false);
+}
+
+</script>
+
+</body>
+</html>

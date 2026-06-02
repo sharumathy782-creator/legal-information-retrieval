@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<!-- Background Video -->
+<video autoplay muted loop id="bgVideo">
+    <source src="{{ url_for('static', filename='videos/bg.mp4') }}" type="video/mp4">
+</video>
+
+<h2 style="text-align:center; color:white;">Admin Dashboard</h2>
+
+<table border="1" cellpadding="8" 
+       style="margin:auto; color:white; background: rgba(0,0,0,0.7);">
+
+    <tr>
+        <th>Date & Time</th>
+        <th>User</th>
+        <th>Issue</th>
+        <th>Act</th>
+        <th>Authority</th>
+        <th>Feedback</th>
+        <th>Location</th> <!-- ✅ NEW -->
+        <th>Action</th>
+    </tr>
+
+    {% for r in records %}
+    <tr>
+        <td>{{ r[6] }}</td>
+        <td>{{ r[1] }}</td>
+        <td>{{ r[2] }}</td>
+        <td>{{ r[3] }}</td>
+        <td>{{ r[4] }}</td>
+        <td>{{ r[5] }}</td>
+
+        <!-- ✅ Safe location display -->
+        <td>
+            {% if r|length > 7 %}
+                {{ r[7] if r[7] else 'N/A' }}
+            {% else %}
+                N/A
+            {% endif %}
+        </td>
+
+        <td>
+            <a href="/delete/{{ r[0] }}" 
+               onclick="return confirm('Are you sure?')"
+               style="color:red;">
+               Delete
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+<div style="text-align:center; margin-top:20px;">
+    <a href="/logout" style="color:white;">Logout</a>
+</div>
+
+</body>
+</html>
