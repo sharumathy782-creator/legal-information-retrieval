@@ -7,7 +7,6 @@ import torch
 df = pd.read_csv("dataset.csv")
 df.columns = df.columns.str.strip()
 
-# Remove empty rows (NO Category column now)
 df = df.dropna(subset=[
     "Act Name",
     "Typical Complaints / Requests",
