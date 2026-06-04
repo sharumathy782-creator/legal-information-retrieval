@@ -45,8 +45,7 @@ def fix_db():
     conn.close()
 
 init_db()
-fix_db()   # ✅ ADD THIS LINE
-    
+fix_db() 
 
 # ---------------- LANGUAGE HELPER ---------------- #
 
@@ -117,7 +116,7 @@ def predict():
     # Take first authority if multiple exist
     main_authority = authority.split(";")[0].strip()
 
-    # Create dynamic map search
+    # dynamic map search
     map_location = f"{main_authority} office {location}"
 
     # Generate system time
@@ -137,7 +136,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?)
     result["authority"],
     "",
     current_time,
-    location   # ✅ added
+    location  
 ))
 
     conn.commit()
@@ -176,7 +175,7 @@ def feedback():
 
         return redirect('/thanks')
 
-    return render_template("feedback.html")   # ✅ IMPORTANT FIX
+    return render_template("feedback.html")  
 # ---------------- ADMIN ---------------- #
 @app.route('/admin')
 def admin():
