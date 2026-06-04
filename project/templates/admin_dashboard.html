@@ -24,7 +24,7 @@
         <th>Act</th>
         <th>Authority</th>
         <th>Feedback</th>
-        <th>Location</th> <!-- ✅ NEW -->
+        <th>Location</th> 
         <th>Action</th>
     </tr>
 
@@ -37,7 +37,6 @@
         <td>{{ r[4] }}</td>
         <td>{{ r[5] }}</td>
 
-        <!-- ✅ Safe location display -->
         <td>
             {% if r|length > 7 %}
                 {{ r[7] if r[7] else 'N/A' }}
