@@ -11,7 +11,7 @@ translations = {
         "feedback_title": "Give Feedback",
         "logout": "Logout",
         "speak_button": "Speak",
-        "location_label": "Enter Your City / Location"   # ✅ ADDED
+        "location_label": "Enter Your City / Location"  
     },
 
     "tamil": {
@@ -26,7 +26,7 @@ translations = {
         "feedback_title": "கருத்து வழங்கவும்",
         "logout": "வெளியேறு",
         "speak_button": "பேசுங்கள்",
-        "location_label": "உங்கள் நகரம் / இடத்தை உள்ளிடவும்"   # ✅ ADDED
+        "location_label": "உங்கள் நகரம் / இடத்தை உள்ளிடவும்"   
     },
 
     "tanglish": {
